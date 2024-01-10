@@ -1,0 +1,40 @@
+.square {
+    border: solid 3px #7a3b3b00;
+    width: 40%;
+    height: 40px;
+    background-color: rgb(192, 209, 255);
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    
+}
+
+.red {
+    background-color: red;
+    height: 35px;
+    width: 35px;
+    border: 0;
+    padding: 0;
+    border-radius: 30px;
+}
+
+.yellow {
+    background-color: yellow;
+    height: 35px;
+    width: 35px;
+    border: 0;
+    padding: 0;
+    border-radius: 30px;
+}
+
+.column {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column-reverse;
+    
+    
+    width: 90px;
+}

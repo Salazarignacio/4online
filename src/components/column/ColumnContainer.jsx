@@ -14,6 +14,7 @@ export default function ColumnContainer({ col }) {
     setPlayer,
     insertCoin,
     lastIndexActivePlayer,
+    checkWinner
   } = uContext;
 
   const [index, setIndex] = useState([
@@ -26,14 +27,13 @@ export default function ColumnContainer({ col }) {
   ]);
 
   useEffect(() => {
-    // Este useEffect actualiza el estado local 'player' cuando 'activePlayer' cambia
+
     setPlayer(!activePlayer[activePlayer.length - 1]);
   }, [activePlayer]);
 
   /* -----------------------activate----------------------- */
 
   function activate() {
-    /* activa los botones hiden */
     const copyIndex = [...index];
     setIndex(copyIndex);
     let n;
@@ -49,7 +49,16 @@ export default function ColumnContainer({ col }) {
       }
     }
     insertCoin(n, col);
+    const winner = checkWinner(
+      player === lastIndexActivePlayer ? player1 : player2
+    );
+  
+    if (winner) {
+      console.log(`¡${player === lastIndexActivePlayer ? "Player 1" : "Player 2"} ha ganado!`);
+
+    }
   }
+  
 
   return (
     <div className="column" onClick={() => activate()}>

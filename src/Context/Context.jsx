@@ -10,9 +10,49 @@ export default function Context({ children }) {
   /*   console.log("player1", player1);
   console.log("player2", player2); */
 
+  function checkWinner(playerArray) {
+    for (let i = 0; i < playerArray.length; i++) {
+      const { index, columna, player } = playerArray[i];
+
+      const horizontalMatch = playerArray.filter(
+        (a) => a.player === player && a.index === index
+      );
+      if (horizontalMatch.length >= 4) {
+        return true;
+      }
+
+      const verticalMatch = playerArray.filter(
+        (a) => a.player === player && a.columna === columna
+      );
+      if (verticalMatch.length >= 4) {
+        return true;
+      }
+
+      const diagonalRightMatch = playerArray.filter(
+        (a) =>
+          a.player === player &&
+          a.index - index === a.columna.charCodeAt(0) - columna.charCodeAt(0)
+      );
+      if (diagonalRightMatch.length >= 4) {
+        return true;
+      }
+
+      const diagonalLeftMatch = playerArray.filter(
+        (a) =>
+          a.player === player &&
+          a.index - index === columna.charCodeAt(0) - a.columna.charCodeAt(0)
+      );
+      if (diagonalLeftMatch.length >= 4) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   const lastIndexActivePlayer = activePlayer[activePlayer.length - 1];
   function insertCoin(i, col) {
-    setPlayer(!lastIndexActivePlayer); // Cambiar al siguiente jugador
+    setPlayer(!lastIndexActivePlayer);
 
     lastIndexActivePlayer
       ? setPlayer1([...player1, { index: i, columna: col, player: "player 1" }])
@@ -20,30 +60,7 @@ export default function Context({ children }) {
           ...player2,
           { index: i, columna: col, player: "player 2" },
         ]);
-    setActivePlayer([...activePlayer, !lastIndexActivePlayer]); // Agregar al siguiente jugador a activePlayer
-    winner();
-  }
-
-  function search(a, b, c, d) {
-    const array = [a, b, c, d];
-    let tieneColumnas = true;
-    array.forEach((x, index) => {
-      if (!player1.some((elemento) => {return elemento.index === 0 && elemento.columna===x })) {
-        tieneColumnas = false;
-      }
-    });
-     return tieneColumnas;
-  }
-
-  function winner() {
-    if(
-    search("A", "B", "C", "D")||
-    search("E", "B", "C", "D")||
-    search("E", "F", "C", "D")||
-    search("E", "F", "C", "D")){
-      console.log("winner!")
-      return true
-    }
+    setActivePlayer([...activePlayer, !lastIndexActivePlayer]);
   }
 
   return (
@@ -58,6 +75,7 @@ export default function Context({ children }) {
           insertCoin,
           setPlayer,
           lastIndexActivePlayer,
+          checkWinner,
         }}
       >
         {children}
